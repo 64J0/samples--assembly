@@ -1,2 +1,5 @@
 #+TITLE: Samples Assembly
 #+DATE: <2025-04-11 Fri>
+
+Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 Assembly Programming]]. The
+assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler.
