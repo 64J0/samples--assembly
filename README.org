@@ -2,4 +2,58 @@
 #+DATE: <2025-04-11 Fri>
 
 Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 Assembly Programming]]. The
-assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler.
+assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler. Also, to
+complement some gaps from the book explanation, I decided to use ChatGPT.
+
+** .data section
+
+In NASM for x86 assembly, the directives like ~db~, ~dw~, ~dd~, ~dq~, etc., are
+used to define data in memory. These **are not data types in the high-level
+language sense**, but rather instructions to the assembler about how many bytes
+to allocate and optionally what initial values to store there.
+
+| Directive | Stands for        | Bytes allocated                       |
+|-----------+-------------------+---------------------------------------|
+| db        | Define byte       | 1 byte                                |
+| dw        | Define word       | 2 bytes                               |
+| dd        | Define Doubleword | 4 bytes                               |
+| dq        | Define Quadword   | 8 bytes                               |
+| dt        | Define Ten bytes  | 10 bytes (used for FPU 80-bit floats) |
+
+Example:
+
+#+BEGIN_SRC nasm
+  section .data
+          my_byte      db 0x41           ; 1 byte initialized to 0x41
+          my_string    db 'Hello', 0     ; A null-terminated string
+          my_word      dw 0x1234         ; 2 bytes initialized to 0x1234
+          my_dword     dd 0x12345678     ; 4 bytes initialized to 0x12345678
+          my_qword     dq 0x123456789ABCDEF0 ; 8 bytes
+          my_tbyte     dt 0              ; 10 bytes initialized to 0
+#+END_SRC
+
+These directives are typically used in the ~.data~ or ~.bss~ sections of the
+assembly program.
+
+** .bss section
+
+In NASM, the ~.bss~ section is used to declare **uninitialized data** - i.e.,
+memory that will be reserved but not initialized in the binary file. There we
+can find directives for reserving some memory space, for example:
+
+| Directive | Stands for          | Reserves                |
+|-----------+---------------------+-------------------------|
+| resb      | Reserve bytes       | 1 byte each             |
+| resw      | Reserve words       | 2 bytes each            |
+| resd      | Reserve Doublewords | 4 bytes each            |
+| resq      | Reserve Quadwords   | 8 bytes each            |
+| rest      | Reserve Ten bytes   | 10 bytes each (for FPU) |
+
+Example:
+
+#+BEGIN_SRC nasm
+  section .bss
+          buffer resq 4      ; reserves space for 4 quadwords = 4 * 8 = 32 bytes
+#+END_SRC
+
++ WARNING :: Notice that we can't use the ~resq~ directive in the .data section.
