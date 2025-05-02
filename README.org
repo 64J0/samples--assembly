@@ -8,8 +8,8 @@ complement some gaps from the book explanation, I decided to use ChatGPT.
 ** .data section
 
 In NASM for x86 assembly, the directives like ~db~, ~dw~, ~dd~, ~dq~, etc., are
-used to define data in memory. These **are not data types in the high-level
-language sense**, but rather instructions to the assembler about how many bytes
+used to define data in memory. These **are not data types in the high-level language sense**,
+but rather instructions to the assembler about how many bytes
 to allocate and optionally what initial values to store there.
 
 | Directive | Stands for        | Bytes allocated                       |
@@ -96,8 +96,7 @@ The return value (if any) is stored in ~rax~ register.
 *** Special case: variadic functions (like ~printf~)
 
 + Variadic functions :: Functions that accept a variable number of arguments,
-  not a fixed number. For example, in C we have ~printf(const char *format,
-  ...)~
+  not a fixed number. For example, in C we have ~printf(const char *format, ...)~
 
 You must set ~rax~ to 0 before calling a variadic function like ~printf~ with no
 floating-point arguments.
