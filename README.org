@@ -35,6 +35,12 @@ Example:
 These directives are typically used in the ~.data~ or ~.bss~ sections of the
 assembly program.
 
+*** FPU 80-bit floats
+
+We can find 80-bit floating-point numbers in old programs, where these numbers
+have their own instructions, called FPU instructions. This functionality is a
+legacy from the past and should not be used in new developments.
+
 ** .bss section
 
 In NASM, the ~.bss~ section is used to declare **uninitialized data** - i.e.,
@@ -57,3 +63,44 @@ Example:
 #+END_SRC
 
 + WARNING :: Notice that we can't use the ~resq~ directive in the .data section.
+
+** The stack
+
+The stack, which is a contiguous array of memory locations, can be used as
+temporary storage to save values in registers and call them back later or, more
+importantly, to transfer values to functions.
+
+The stack segment starts in high memory, and when it grows, it grows in the
+downward direction, like an icicle grows downward when it grows larger. Items
+are places on the stack with the push instruction and removed from the stack
+with the pop instruction.
+
+** How we know which registers to use for function arguments?
+
+We use System V AMD64 Calling Convention (for Linux/macOS), which is the
+standard for passing arguments to functions in 64-bit Linux programs. Here's how
+it works:
+
+| Argument # | Register | Notes                            |
+|------------+----------+----------------------------------|
+| 1st        | ~rdi~    |                                  |
+| 2nd        | ~rsi~    |                                  |
+| 3rd        | ~rdx~    |                                  |
+| 4th        | ~rcx~    |                                  |
+| 5th        | ~r8~     |                                  |
+| 6th        | ~r9~     |                                  |
+| 7th+       | Stack    | Pushed right-to-left (like in C) |
+
+The return value (if any) is stored in ~rax~ register.
+
+*** Special case: variadic functions (like ~printf~)
+
++ Variadic functions :: Functions that accept a variable number of arguments,
+  not a fixed number. For example, in C we have ~printf(const char *format,
+  ...)~
+
+You must set ~rax~ to 0 before calling a variadic function like ~printf~ with no
+floating-point arguments.
+
+Otherwise, we set its value according to how many floating-point arguments are
+in ~xmm~ registers.
