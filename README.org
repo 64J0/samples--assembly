@@ -75,6 +75,14 @@ downward direction, like an icicle grows downward when it grows larger. Items
 are places on the stack with the push instruction and removed from the stack
 with the pop instruction.
 
+** Functions
+
+Assembly language has functions and procedures to help you give your code more
+structure.
+
++ Function :: A function executes instructions and returns a value.
++ Procedure :: A procedure executes instructions and does not return a value.
+
 ** How we know which registers to use for function arguments?
 
 We use System V AMD64 Calling Convention (for Linux/macOS), which is the
