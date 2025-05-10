@@ -75,6 +75,60 @@ downward direction, like an icicle grows downward when it grows larger. Items
 are places on the stack with the push instruction and removed from the stack
 with the pop instruction.
 
+*** The stack pointer
+
+The stack pointer is a special register (called ~rsp~ in *x86_64*) that always
+points to the current top of the stack.
+
+*** The stack frame
+
+A stack frame is the section of the stack used by one function call. It stores:
+
+- The return address (from ~call~);
+- The previous frame pointer (~rbp~);
+- Local variables;
+- Temporarily saved registers.
+
+A stack frame is usually managed like this:
+
+#+BEGIN_SRC nasm
+  ; function prologue
+  push rbp          ; Save caller's base pointer
+  mov rbp, rsp      ; Set current frame pointer
+  sub rsp, N        ; Reserve space for local variables
+
+  ; ...
+
+  ; function epilogue
+  mov rsp, rbp      ; Restore stack pointer
+  pop rbp           ; Restore caller's base pointer
+  ret               ; Return to caller
+#+END_SRC
+
+Registers involved:
+
+| Register | Role                                                  |
+|----------+-------------------------------------------------------|
+| ~rsp~    | Stack pointer (top of the stack)                      |
+| ~rbp~    | Base pointer (start of the frame)                     |
+
+*** Stack alignment
+
+Stack alignment ensures that the stack pointer (~rsp~) is at a memory address
+that's a multiple of a certain number of bytes - *typically 16 bytes on x86_64
+systems*.
+
+**** Why align the stack?
+
++ Performance :: Modern CPUs are optimized for aligned memory access.
++ Calling convention requirement :: The System V AMD64 ABI (used on Linux/macOS)
+  requires ~rsp~ to be 16-byte aligned before any ~call~ instruction (used for
+  calling external functions for example).
++ SIMD instructions :: Some instructions (e.g., those using ~xmm~ registers)
+  require 16-byte alignment.
++ Debug tools :: Some debug tools demand the alignment of the stack to work
+  properly.
+
 ** Functions
 
 Assembly language has functions and procedures to help you give your code more
@@ -85,9 +139,9 @@ structure.
 
 ** How we know which registers to use for function arguments?
 
-We use System V AMD64 Calling Convention (for Linux/macOS), which is the
-standard for passing arguments to functions in 64-bit Linux programs. Here's how
-it works:
+We use [[https://wiki.osdev.org/System_V_ABI][System V Application Binary Interface Calling Convention]] (for
+Linux/macOS), which is the standard for passing arguments to functions in 64-bit
+Linux programs. Here's how it works:
 
 | Argument # | Register | Notes                            |
 |------------+----------+----------------------------------|
@@ -100,6 +154,12 @@ it works:
 | 7th+       | Stack    | Pushed right-to-left (like in C) |
 
 The return value (if any) is stored in ~rax~ register.
+
+Other than defining the calling convention, this interface specifies object file
+formats, executable file formats, dynamic linking semantics, and much more for
+systems that complies with the ~X/Open Common Application Environment
+Specification~ and the ~System V Interface Definition~. The ~Executable and
+Linkable Format~ (*ELF*) is part of the ~System V ABI~.
 
 *** Special case: variadic functions (like ~printf~)
 
