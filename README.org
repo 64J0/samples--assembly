@@ -1,5 +1,6 @@
 #+TITLE: Samples Assembly
 #+DATE: <2025-04-11 Fri>
+#+startup: show5levels
 
 Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 Assembly Programming]]. The
 assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler. Also, to
@@ -66,9 +67,13 @@ Example:
 
 ** The stack
 
-The stack, which is a contiguous array of memory locations, can be used as
-temporary storage to save values in registers and call them back later or, more
-importantly, to transfer values to functions.
+When your main program calls a function, it will push an 8-byte (64-bits) return
+address on the stack. That 8-byte address is the address of the instruction to
+be executed after the function ends.
+
+Furthermore, the stack, which is a contiguous array of memory locations, can be
+used as temporary storage to save generic values in registers and call them back
+later or, more importantly, to transfer values to functions.
 
 The stack segment starts in high memory, and when it grows, it grows in the
 downward direction, like an icicle grows downward when it grows larger. Items
