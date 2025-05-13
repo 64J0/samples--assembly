@@ -142,6 +142,20 @@ structure.
 + Function :: A function executes instructions and returns a value.
 + Procedure :: A procedure executes instructions and does not return a value.
 
+*** External functions
+
+In the source file where you plan to use the external function, you declare it
+with the keyword ~extern~, and the assembler knows it does not have to look for
+the source of the function. The assembler will assume that the function is
+already assembled in an object file. The external function will be inserted by
+the linker, provided it can find it in an object file.
+
+And why we don't need to manually add the reference to the *printf* object file?
+
+Well, ~gcc~ is smart enough to also check C libraries for functions that are
+referenced in the source code. This means you should not use the names of C
+functions for naming your own functions!
+
 ** How we know which registers to use for function arguments?
 
 We use [[https://wiki.osdev.org/System_V_ABI][System V Application Binary Interface Calling Convention]] (for
