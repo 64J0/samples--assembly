@@ -6,6 +6,14 @@ Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 
 assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler. Also, to
 complement some gaps from the book explanation, I decided to use ChatGPT.
 
+** Tools: SASM, DDD, GDB, godbolt, etc
+
+- TODO :: Write about tools that can be used to debug and study the assembly
+  code execution.
+
+If you'd like to check the assembly generated for your program online, I
+recommend using this [[https://godbolt.org/][compiler explorer (godbolt)]].
+
 ** .data section
 
 In NASM for x86 assembly, the directives like ~db~, ~dw~, ~dd~, ~dq~, etc., are
@@ -160,7 +168,10 @@ functions for naming your own functions!
 
 We use [[https://wiki.osdev.org/System_V_ABI][System V Application Binary Interface Calling Convention]] (for
 Linux/macOS), which is the standard for passing arguments to functions in 64-bit
-Linux programs. Here's how it works:
+Linux programs.
+
+Here's how it works for non-floating-point arguments, such as integers and
+addresses:
 
 | Argument # | Register | Notes                            |
 |------------+----------+----------------------------------|
@@ -174,11 +185,31 @@ Linux programs. Here's how it works:
 
 The return value (if any) is stored in ~rax~ register.
 
+Floating-point arguments are passed via xmm registers as follows:
+
+| Argument # | Register |
+|------------+----------|
+| 1st        | ~xmm0~   |
+| 2nd        | ~xmm1~   |
+| 3rd        | ~xmm2~   |
+| 4th        | ~xmm3~   |
+| 5th        | ~xmm4~   |
+| 6th        | ~xmm5~   |
+| 7th        | ~xmm6~   |
+| 8th        | ~xmm7~   |
+| 9th+       | Stack    |
+
+A function returns a floating-point result in ~xmm0~ register.
+
+Check the [[file:010-calling-convention/][010-calling-convention/function5.asm]] for an example.
+
 Other than defining the calling convention, this interface specifies object file
 formats, executable file formats, dynamic linking semantics, and much more for
 systems that complies with the ~X/Open Common Application Environment
 Specification~ and the ~System V Interface Definition~. The ~Executable and
 Linkable Format~ (*ELF*) is part of the ~System V ABI~.
+
+For Microsoft we use the *Microsoft x64* calling convention.
 
 *** Special case: variadic functions (like ~printf~)
 
