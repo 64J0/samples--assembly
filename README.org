@@ -6,10 +6,10 @@ Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 
 assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler. Also, to
 complement some gaps from the book explanation, I decided to use ChatGPT.
 
-** Tools: SASM, DDD, GDB, godbolt, etc
+** Tools
 
 - TODO :: Write about tools that can be used to debug and study the assembly
-  code execution.
+  code execution. For example: SASM, DDD, GDB, godbolt, objdump.
 
 If you'd like to check the assembly generated for your program online, I
 recommend using this [[https://godbolt.org/][compiler explorer (godbolt)]].
@@ -163,6 +163,29 @@ And why we don't need to manually add the reference to the *printf* object file?
 Well, ~gcc~ is smart enough to also check C libraries for functions that are
 referenced in the source code. This means you should not use the names of C
 functions for naming your own functions!
+
+*** Macros
+
+When you use the same set of instructions several times in a program, you can
+create a function and call that function every time you need to execute the
+instructions. However, there's a performance penalty with functions: every time
+you call a function, the execution jumps to the function at some place in memory
+and, when finished, jumps back to the calling program. Calling and returning
+from a function takes time.
+
+To avoid this performance issue, you can work with macros. [...] At assembly
+time, everywhere in the code where you "call" the macro, NASM substitutes the
+macro name with the instructions in the definition of the macro.
+
+Macros are not a functionality in the Intel assembly language but a
+functionality provided by NASM (or another version of assembler). Macros are
+created using preprocessor directives, and NASM uses a macro processor to
+convert macros to machine language and insert the machine languages at the
+appropriate places in the code.
+
+Macros could improve the execution speed of your code but also will increase the
+size of the binary, because at assembly time the instructions in the macro will
+be inserted every place that you use the macro.
 
 ** How we know which registers to use for function arguments?
 
