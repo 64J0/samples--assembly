@@ -228,9 +228,9 @@ Check the [[file:010-calling-convention/][010-calling-convention/function5.asm]]
 
 Other than defining the calling convention, this interface specifies object file
 formats, executable file formats, dynamic linking semantics, and much more for
-systems that complies with the ~X/Open Common Application Environment
-Specification~ and the ~System V Interface Definition~. The ~Executable and
-Linkable Format~ (*ELF*) is part of the ~System V ABI~.
+systems that complies with the *X/Open Common Application Environment
+Specification* and the *System V Interface Definition*. The *Executable and
+Linkable Format* (~ELF~) is part of the ~System V ABI~.
 
 For Microsoft we use the *Microsoft x64* calling convention.
 
