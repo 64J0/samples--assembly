@@ -2,9 +2,10 @@
 #+DATE: <2025-04-11 Fri>
 #+startup: show5levels
 
-Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 Assembly Programming]]. The
-assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide Assembler. Also, to
-complement some gaps from the book explanation, I decided to use ChatGPT.
+Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 Assembly Programming]]
+(repository [[https://github.com/Apress/beginning-x64-assembly-programming][link]]). The assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide
+Assembler. Also, to complement some gaps from the book explanation, I decided to
+use ChatGPT.
 
 ** Tools
 
@@ -49,6 +50,22 @@ assembly program.
 We can find 80-bit floating-point numbers in old programs, where these numbers
 have their own instructions, called FPU instructions. This functionality is a
 legacy from the past and should not be used in new developments.
+
+*** Constants
+
+In NASM, the ~equ~ directive is used to define a constant - it's short for
+"equate".
+
+It doesn't allocate memory; instead, it assigns a name to a constant value that
+will be substituted by the assembler wherever that name appears.
+
+#+BEGIN_SRC nasm
+  section .data
+          BUFFER_SIZE equ 128 ; define a constant
+#+END_SRC
+
+This helps you avoid hardcoding numbers, making your code more readable and
+easier to update.
 
 ** .bss section
 
@@ -187,6 +204,12 @@ Macros could improve the execution speed of your code but also will increase the
 size of the binary, because at assembly time the instructions in the macro will
 be inserted every place that you use the macro.
 
+Check the following projects for an initial understanding of using macros and
+assembler preprocessor directives:
+
+- [[file:012-macros/macro.asm][012-macros/macro.asm]]
+- [[file:014-file-io/file.asm][014-file-io/file.asm]]
+  
 ** How we know which registers to use for function arguments?
 
 We use [[https://wiki.osdev.org/System_V_ABI][System V Application Binary Interface Calling Convention]] (for
