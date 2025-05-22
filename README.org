@@ -269,3 +269,12 @@ floating-point arguments.
 
 Otherwise, we set its value according to how many floating-point arguments are
 in ~xmm~ registers.
+
+** Processor's available functionalities
+
+Sometimes it's necessary to find out the functionality available in a processor,
+for example, to use an instruction that can deal with parallelization. One can
+get this information using the ~cpuid~ command that checks the CPU
+characteristics.
+
+Check the [[file:018-cpuid/][018-cpuid/]] sample for a coding example.
