@@ -9,11 +9,13 @@ use ChatGPT.
 
 ** Tools
 
-- TODO :: Write about tools that can be used to debug and study the assembly
-  code execution. For example: SASM, DDD, GDB, godbolt, objdump.
+Tools that you can use to debug and study the assembly code execution:
 
-If you'd like to check the assembly generated for your program online, I
-recommend using this [[https://godbolt.org/][compiler explorer (godbolt)]].
+- SASM
+- DDD
+- GDB
+- objdump
+- [[https://godbolt.org/][godbolt compiler explorer (online)]]
 
 ** .data section
 
