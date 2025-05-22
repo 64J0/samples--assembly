@@ -1,4 +1,4 @@
-#+TITLE: Samples Assembly
+#+TITLE: Samples NASM x86 Assembly
 #+DATE: <2025-04-11 Fri>
 #+startup: show5levels
 
@@ -6,6 +6,14 @@ Code based on the lessons from the book [[https://a.co/d/hE556TU][Beginning x64 
 (repository [[https://github.com/Apress/beginning-x64-assembly-programming][link]]). The assembly used here is named [[https://en.wikipedia.org/wiki/Netwide_Assembler][NASM]] that stands for Netwide
 Assembler. Also, to complement some gaps from the book explanation, I decided to
 use ChatGPT.
+
+Other interesting references are:
+
+- [[https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html][Intel manuals]]
+- [[https://asmtutor.com/][asmtutor]]
+- [[https://www.cs.virginia.edu/~evans/cs216/guides/x86.html][x86 Assembly Guide]]
+- [[https://agner.org/optimize/][Agner's optimizations]]
+- [[https://github.com/trevor-vincent/awesome-high-performance-computing][trevor-vincent/awesome-high-performance-computing]]
 
 ** Tools
 
