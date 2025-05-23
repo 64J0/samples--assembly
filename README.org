@@ -287,7 +287,7 @@ characteristics.
 
 Check the [[file:018-cpuid/cpu.asm][018-cpuid/cpu.asm]] sample for a coding example.
 
-** SIMD - Single Instruction Stream, Multiple Data
+** SIMD - Single Instruction, Multiple Data
 
 *SIMD* refers to the functionality that allows you to execute one instruction on
 multiple data "streams", which can potentially improve the performance of our
