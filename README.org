@@ -285,4 +285,86 @@ for example, to use an instruction that can deal with parallelization. One can
 get this information using the ~cpuid~ command that checks the CPU
 characteristics.
 
-Check the [[file:018-cpuid/][018-cpuid/]] sample for a coding example.
+Check the [[file:018-cpuid/cpu.asm][018-cpuid/cpu.asm]] sample for a coding example.
+
+** SIMD - Single Instruction Stream, Multiple Data
+
+*SIMD* refers to the functionality that allows you to execute one instruction on
+multiple data "streams", which can potentially improve the performance of our
+programs.
+
+In essence, SIMD is a form of parallel computing; however, in some cases, the
+execution on the different data streams can happen sequentially, depending on
+the hardware functionality and the instruction to be executed.
+
+SIMD is a term proposed by Michael J. Flynn, and to find more about the his
+taxonomy, check the following references:
+
+- IEEE Paper :: [[https://ieeexplore.ieee.org/document/5009071][Some Computer Organizations and Their Effectiveness]]
+- Wikipedia  :: [[https://en.wikipedia.org/wiki/Flynn%27s_taxonomy][Flynn's taxonomy]]
+
+Because of the potential for parallel computing, SIMD can be used to speed up
+computations in a wide area of applications such as image processing, audio
+processing, signal processing, vector and matrix manipulations, and so on.
+
+*** SIMD implementations
+
+The first implementation of SIMD was called MMX, which was superseded by
+Streaming SIMD Extension (SSE). Later, SSE was extended by Advanced Vector
+Extension (AVX).
+
+*** Scalar data and packed data
+
+A processor that supports SSE functionality has 16 additional 128-bit (16 bytes)
+registers (~xmm0~ to ~xmm15~) and a control register ~mxcsr~. That's it, we can
+use more advanced operations with ~xmm~ registers other than dealing only with
+floating-point calculations.
+
+The ~xmm~ registers can contain *scalar data* or *packed data*.
+
+- Scalar data :: Just one value. When we put 3.141592654 in ~xmm0~, the ~xmm0~
+  contains a scalar value.
+- Packed data :: Multiple values, like an array.
+
+Here are the possibilities for storing values in an ~xmm~ register:
+
+- Two 64-bit double-precision floating-point numbers;
+- Four 32-bit single-precision floating-point numbers
+- Two 64-bit integers (quadwords)
+- Four 32-bit integers (double words)
+- Eight 16-bit short integers (words)
+- Sixteen 8-bit bytes or characters
+
+AVX registers are called ~ymm~ and they're double the size of ~xmm~
+(256-bit). There is also AVX-512, which provides registers that have 512 bits
+and are called ~zmm~ registers.
+
+*** Unaligned and aligned data
+
+Data in memory can be unaligned or aligned on certain addresses that are
+multiples of 16, 32, and so on. Aligning data in memory can drastically improve
+the performance of a program. Here is the reason why: aligned packed SSE
+instructions want to fetch memory chunks of 16 bytes at the time. When data is
+not aligned, the CPU has to do more than one fetch to get the needed 16-byte
+data, and that slows down the execution.
+
+When using SSE, alignment means that data in section ~.data~ and in section
+~.bss~ should be aligned on a 16-byte border. In NASM you can use the assembly
+directive ~align 16~ and ~alignb 16~ in front of the data to be aligned.
+
+Check those samples to better understand how to properly align data:
+
+- [[file:019-sse-alignment/sse_unaligned.asm][019-sse-alignment/sse_unaligned.asm]]
+- [[file:019-sse-alignment/sse_aligned.asm][019-sse-alignment/sse_aligned.asm]]
+  
+*** .NET
+
+.NET provides hardware support for SIMD using a set of SIMD-accelerated types
+under the ~System.Numerics~ namespace: [[https://learn.microsoft.com/en-us/dotnet/standard/simd][Use SIMD-accelerated numeric types]].
+
+The following repositories must be good resources for learning more about it:
+
+- https://github.com/CBGonzalez/SIMDIntro
+- https://github.com/CBGonzalez/SIMDPerformance
+- https://github.com/CBGonzalez/Core3Intrinsics-Intro
+- [[https://xoofx.github.io/blog/2023/07/09/10x-performance-with-simd-in-csharp-dotnet/][10x Performance with SIMD Vectorized Code in C#/.NET]]
