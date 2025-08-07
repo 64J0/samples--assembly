@@ -14,7 +14,8 @@ Other interesting references are:
 - [[https://www.cs.virginia.edu/~evans/cs216/guides/x86.html][x86 Assembly Guide]]
 - [[https://agner.org/optimize/][Agner's optimizations]]
 - [[https://github.com/trevor-vincent/awesome-high-performance-computing][trevor-vincent/awesome-high-performance-computing]]
-
+- [[https://github.com/FFmpeg/asm-lessons][FFmpeg/asm-lessons]]
+  
 ** Tools
 
 Tools that you can use to debug and study the assembly code execution:
